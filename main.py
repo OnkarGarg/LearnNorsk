@@ -11,12 +11,12 @@ with open('sentences.json', 'r', encoding='utf-8') as file:
     mode = input("Choose mode: 1 for Norwegian prompts requiring spoken norwegian,"
                  " 2 for English prompts requiring spoken norwegian: ")
     mode = int(mode) % 2
-    print("Mode: " + str(mode))
+    print("Mode: " + str(mode + 2))
 
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source)
 
-        if mode == 0:
+        if mode == 1:
             for sentence in sentences:
                 print(sentence["norwegian"])
                 audio = r.listen(source)
@@ -57,5 +57,5 @@ with open('sentences.json', 'r', encoding='utf-8') as file:
                         ",", ""):
                     print("Correct!")
                 else:
-                    print("Incorrect!")
+                    print(f"Incorrect! The correct answer is: {sentence['norwegian']}")
 
