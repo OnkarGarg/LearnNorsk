@@ -1,12 +1,20 @@
-import pygame
-import speech_recognition as sr
 import json
 import random
-from gtts import gTTS
 from io import BytesIO
-from pygame import mixer, event
-import time
 
+import pygame
+import speech_recognition as sr
+from gtts import gTTS
+from pygame import mixer
+
+print("Welcome, human.")
+print("dir() is a function, returning a list.")
+print("This has no output")
+a_list = dir(sr)
+print("but this does", dir(sr))
+print("The help() command uses pydoc to print to stdout")
+help(sr)
+print("This program is gratified to be of use.")
 
 def speak(text):
     mp3_fp = BytesIO()
@@ -20,32 +28,32 @@ def speak(text):
         pygame.time.Clock().tick(10)
 
 
-def hear(r, source):
-    audio = r.listen(source)
+def hear(recognizer: sr.Recognizer, audio_source):
+    audio = recognizer.listen(audio_source)
     heard = ""
     while not heard:
         try:
-            heard = r.recognize_google(audio, language="no-NO")
+            heard = recognizer.recognize_google(audio, language="no-NO")
         except sr.UnknownValueError:
             print("Google Speech Recognition could not understand audio")
-            r.adjust_for_ambient_noise(source)
-            audio = r.listen(source)
+            recognizer.adjust_for_ambient_noise(audio_source)
+            audio = recognizer.listen(audio_source)
         except sr.RequestError as e:
             print("Could not request results from Google Speech Recognition service; {0}".format(e))
     return heard
 
 
-def hear_norwegian(r, source, sentence):
-    heard = hear(r, source)
+def hear_norwegian(recognizer: sr.Recognizer, audio_source, text):
+    heard = hear(recognizer, audio_source)
 
     print("You said: " + heard)
-    if heard.lower() == sentence["norwegian"].lower().replace(".", "").replace("?", "").replace("!", "").replace(",",
-                                                                                                                 ""):
+    if heard.lower() == text["norwegian"].lower().replace(".", "").replace("?", "").replace("!", "").replace(",",
+                                                                                                             ""):
         print("Correct!")
-        speak(sentence["norwegian"])
+        speak(text["norwegian"])
     else:
-        print(f"Incorrect! The correct answer is: {sentence['norwegian']}")
-        speak(sentence["norwegian"])
+        print(f"Incorrect! The correct answer is: {text['norwegian']}")
+        speak(text["norwegian"])
 
 
 if __name__ == "__main__":
@@ -71,4 +79,3 @@ if __name__ == "__main__":
                 for sentence in sentences:
                     print(sentence["english"])
                     hear_norwegian(r, source, sentence)
-
