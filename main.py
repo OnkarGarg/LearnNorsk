@@ -58,7 +58,6 @@ if __name__ == "__main__":
         mode = input("Choose mode: 1 for Norwegian prompts requiring spoken norwegian,"
                      " 2 for English prompts requiring spoken norwegian: ")
         mode = int(mode) % 2
-        print("Mode: " + str(mode + 2))
 
         with sr.Microphone() as source:
             r.adjust_for_ambient_noise(source)
