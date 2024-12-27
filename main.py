@@ -7,14 +7,6 @@ import speech_recognition as sr
 from gtts import gTTS
 from pygame import mixer
 
-print("Welcome, human.")
-print("dir() is a function, returning a list.")
-print("This has no output")
-a_list = dir(sr)
-print("but this does", dir(sr))
-print("The help() command uses pydoc to print to stdout")
-help(sr)
-print("This program is gratified to be of use.")
 
 def speak(text):
     mp3_fp = BytesIO()
