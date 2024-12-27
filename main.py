@@ -42,14 +42,23 @@ def hear_norwegian(recognizer: sr.Recognizer, audio_source, text):
     if heard.lower() == text["norwegian"].lower().replace(".", "").replace("?", "").replace("!", "").replace(",",
                                                                                                              ""):
         print("Correct!")
+        mixer.init()
+        mixer.music.load("correct.mp3")
+        mixer.music.play()
+        while mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
         speak(text["norwegian"])
     else:
         print(f"Incorrect! The correct answer is: {text['norwegian']}")
+        mixer.init()
+        mixer.music.load("wrong.mp3")
+        mixer.music.play()
+        while mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
         speak(text["norwegian"])
 
 
 if __name__ == "__main__":
-    # obtain audio from the microphone
     r = sr.Recognizer()
     with open('sentences.json', 'r', encoding='utf-8') as file:
         data = json.load(file)
